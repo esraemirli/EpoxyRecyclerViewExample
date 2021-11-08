@@ -1,4 +1,4 @@
-package com.example.rickandmortyapp.ui.home
+package com.example.rickandmortyapp.ui.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -8,33 +8,33 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
-import com.example.rickandmortyapp.databinding.FragmentHomeBinding
+import com.example.rickandmortyapp.databinding.FragmentCharacterDetailBinding
 import com.example.rickandmortyapp.model.entity.Character
-import com.example.rickandmortyapp.ui.home.epoxy.HomeEpoxyController
-import com.example.rickandmortyapp.ui.home.epoxy.HomeEpoxyController.*
+import com.example.rickandmortyapp.ui.detail.epoxy.CharacterDetailEpoxyController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), Callbacks {
-    private val viewModel: HomeViewModel by viewModels()
-    private lateinit var _binding: FragmentHomeBinding
-    private lateinit var controller: HomeEpoxyController
+class CharacterDetailFragment : Fragment() {
+    private val viewModel: CharacterDetailViewModel by viewModels()
+    private lateinit var _binding: FragmentCharacterDetailBinding
+    private val args: CharacterDetailFragmentArgs by navArgs()
+    private lateinit var controller: CharacterDetailEpoxyController
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
         return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        controller = HomeEpoxyController(this)
+        controller = CharacterDetailEpoxyController()
         initViews()
     }
 
@@ -45,35 +45,30 @@ class HomeFragment : Fragment(), Callbacks {
                 else -> _binding.loader.visibility = View.GONE
             }
         }
+        viewModel.characterId = args.characterId
+        viewModel.characterDetail.observe(this as LifecycleOwner) { response ->
+            if (response.getOrNull() != null) {
+                setUpList(_binding.epoxyRecyclerView, response.getOrNull()!!)
 
-        viewModel.characterList.observe(this as LifecycleOwner) { list ->
-            if (list.getOrNull() != null) {
-                setUpList(_binding.epoxyRecyclerView, list.getOrNull()!!)
             } else {
-                Log.d("HOME_FRAGMENT_FAIL:", "${list.isFailure}")
+                Log.d("DETAIL_FRAGMENT_FAIL:", "${response.isFailure}")
             }
         }
     }
 
     private fun setUpList(
         view: View?,
-        characterList: List<Character>
+        characterDetail: Character
     ) {
         with(view as EpoxyRecyclerView) {
             layoutManager = LinearLayoutManager(context)
-            initEpoxyController(characterList)
+            initEpoxyController(characterDetail)
         }
     }
 
-    private fun initEpoxyController(characterList: List<Character>) {
-        controller.characterList = characterList
+    private fun initEpoxyController(characterDetail: Character) {
+        controller.characterDetail = characterDetail
         _binding.epoxyRecyclerView.setControllerAndBuildModels(controller)
-    }
-
-    override fun onClick(id: Int) {
-        Log.d("HOME_FRAGMENT_ONCLICK:", "Character Id : $id")
-        val action = HomeFragmentDirections.actionHomeFragmentToCharacterDetailFragment(id)
-        findNavController().navigate(action)
     }
 
 }

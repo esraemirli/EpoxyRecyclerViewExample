@@ -19,5 +19,12 @@ class CharacterService @Inject constructor(
         }
     }
 
+    suspend fun getCharacterById(id : Int): Flow<Result<Character>> {
+        return flow {
+            emit(Result.success(api.getCharacterById(id)))
+        }.catch {
+            emit(Result.failure(RuntimeException("Something went wrong!${it.message}")))
+        }
+    }
 
 }

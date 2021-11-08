@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewParent
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyHolder
@@ -27,12 +29,20 @@ class CharacterItemModel(
         super.bind(holder)
         with(character) {
             val options = RequestOptions().placeholder(R.drawable.ic_launcher_background)
-            Glide.with(holder.image.context)
+            Glide.with(holder.characterImage.context)
                 .applyDefaultRequestOptions(options)
-                .load(imageUrl).into(holder.image)
+                .load(imageUrl).into(holder.characterImage)
             holder.name.text = name
             holder.species.text = species
+            holder.status.text = status
 
+            val statusColor = when (status) {
+                ALIVE -> R.color.alive_color
+                DEAD -> R.color.dead_color
+                else -> R.color.unknown_color
+            }
+
+            holder.statusImage.setBackgroundResource(statusColor)
             holder.root.setOnClickListener {
                 callbacks?.onClick(character.id)
             }
@@ -41,15 +51,19 @@ class CharacterItemModel(
 
     class Holder : EpoxyHolder() {
         lateinit var root: LinearLayout
-        lateinit var image: ImageView
+        lateinit var characterImage: ImageView
         lateinit var name: AppCompatTextView
         lateinit var species: AppCompatTextView
+        lateinit var statusImage: AppCompatImageView
+        lateinit var status: AppCompatTextView
 
         override fun bindView(itemView: View) {
             root = itemView.findViewById(R.id.root)
-            image = itemView.findViewById(R.id.imageView)
+            characterImage = itemView.findViewById(R.id.imageView)
             name = itemView.findViewById(R.id.nameTextView)
             species = itemView.findViewById(R.id.speciesTextView)
+            status = itemView.findViewById(R.id.statusTextView)
+            statusImage = itemView.findViewById(R.id.statusImageView)
         }
     }
 
@@ -59,5 +73,11 @@ class CharacterItemModel(
 
     override fun createNewHolder(parent: ViewParent): Holder {
         return Holder()
+    }
+
+    companion object {
+        private const val ALIVE = "Alive"
+        private const val DEAD = "Dead"
+        private const val UNKNOWN = "unknown"
     }
 }

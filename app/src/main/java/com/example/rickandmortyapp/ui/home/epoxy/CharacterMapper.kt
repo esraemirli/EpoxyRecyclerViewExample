@@ -6,7 +6,13 @@ import javax.inject.Inject
 class CharacterMapper @Inject constructor() : Function1<List<Character>, List<Character>> {
     override fun invoke(list: List<Character>): List<Character> {
         return list.map {
-            Character(id = it.id, name = it.name, species = it.species, imageUrl = it.imageUrl)
+            Character(
+                id = it.id,
+                name = it.name,
+                species = it.species,
+                imageUrl = it.imageUrl,
+                status = it.status
+            )
         }
     }
 }

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/spacing_small"
+        android:padding="@dimen/spacing_normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,9 +22,11 @@
             android:scaleType="fitXY"
             tools:srcCompat="@color/cardview_dark_background" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -32,21 +34,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold"
-                tools:text="Adı" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/statusImageView"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameTextView"
+                tools:src="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/statusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:textSize="@dimen/text_small"
+                app:layout_constraintStart_toEndOf="@+id/statusImageView"
+                app:layout_constraintTop_toBottomOf="@id/nameTextView"
+                tools:text="Alive" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/speciesTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:textSize="@dimen/text_medium"
-                tools:text="Birşey" />
-        </LinearLayout>
+                android:textSize="@dimen/text_small"
+                app:layout_constraintStart_toEndOf="@+id/statusTextView"
+                app:layout_constraintTop_toBottomOf="@id/nameTextView"
+                tools:text="Species" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -54,9 +79,9 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
         android:layout_marginBottom="@dimen/spacing_normal"
+        android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/root"/>
+        app:layout_constraintTop_toBottomOf="@+id/root" />
 </androidx.constraintlayout.widget.ConstraintLayout>
