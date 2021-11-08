@@ -1,24 +1,26 @@
 package com.example.rickandmortyapp.model.repository
 
-import com.example.rickandmortyapp.model.entity.CharacterListResponse
-import com.example.rickandmortyapp.util.BaseDataSource
+import com.example.rickandmortyapp.model.entity.Character
 import com.example.rickandmortyapp.model.remote.CharacterService
-import com.example.rickandmortyapp.model.remote.NetworkResponse
+import com.example.rickandmortyapp.ui.home.epoxy.CharacterMapper
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class CharacterRepository @Inject constructor(private val service: CharacterService) :
-    BaseDataSource() {
+class CharacterRepository @Inject constructor(
+    private val service: CharacterService,
+    private val mapper: CharacterMapper
+) {
 
-    suspend fun getCharacterList(): Flow<NetworkResponse<CharacterListResponse>> = flow {
-        emit(getResult {
-            service.getCharacterList()
-        })
-    }.flowOn(Dispatchers.IO)
+    suspend fun getCharacterList(): Flow<Result<List<Character>>> =
+        service.getCharacterList().map { result ->
+            if (result.isSuccess)
+                Result.success(mapper(result.getOrNull()!!))
+            else
+                Result.failure(result.exceptionOrNull() ?: RuntimeException("Fail"))
+        }
 
 }

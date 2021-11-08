@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="spacing_none">0dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_normal">12dp</dimen>
+    <dimen name="spacing_big">16dp</dimen>
+    <dimen name="spacing_huge">32dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="elevation_default">0dp</dimen>
+    <dimen name="elevation_card">3dp</dimen>
+    <dimen name="elevation_bottom_navigation">8dp</dimen>
+    <dimen name="elevation_footer">4dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="text_xsmall">10sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_large">17sp</dimen>
+    <dimen name="text_xlarge">20sp</dimen>
+</resources>

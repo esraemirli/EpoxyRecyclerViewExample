@@ -3,9 +3,9 @@ package com.example.rickandmortyapp.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class CharacterListResponse(
+data class RickAndMortyResponse(
     @SerializedName("info")
     val info: Info,
     @SerializedName("results")
-    val results: List<Character>
+    val characterList: List<Character>
 )

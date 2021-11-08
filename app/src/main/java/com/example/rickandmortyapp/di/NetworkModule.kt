@@ -1,6 +1,6 @@
 package com.example.rickandmortyapp.di
 
-import com.example.rickandmortyapp.model.remote.CharacterService
+import com.example.rickandmortyapp.model.remote.CharacterAPI
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -16,15 +16,14 @@ private const val BASE_URL = "https://rickandmortyapi.com/api/"
 class NetworkModule {
 
     @Provides
-    fun provideCharacterService(retrofit: Retrofit): CharacterService =
-        retrofit.create(CharacterService::class.java)
+    fun provideCharacterAPI(retrofit: Retrofit): CharacterAPI =
+        retrofit.create(CharacterAPI::class.java)
 
     @Provides
     fun providesRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-
 
     @Provides
     fun provideGson(): Gson = Gson()

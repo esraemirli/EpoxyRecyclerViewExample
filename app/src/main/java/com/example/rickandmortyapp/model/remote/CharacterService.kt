@@ -1,13 +1,23 @@
 package com.example.rickandmortyapp.model.remote
 
-import com.example.rickandmortyapp.model.entity.CharacterListResponse
-import retrofit2.Response
-import retrofit2.http.GET
+import com.example.rickandmortyapp.model.entity.Character
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import java.lang.RuntimeException
+import javax.inject.Inject
 
-interface CharacterService {
-    @GET("character")
-    suspend fun getCharacterList() : Response<CharacterListResponse>
+class CharacterService @Inject constructor(
+    private val api: CharacterAPI
+) {
 
+    suspend fun getCharacterList(): Flow<Result<List<Character>>> {
+        return flow {
+            emit(Result.success(api.getCharacterList().characterList))
+        }.catch {
+            emit(Result.failure(RuntimeException("Something went wrong!${it.message}")))
+        }
+    }
 
 
 }
