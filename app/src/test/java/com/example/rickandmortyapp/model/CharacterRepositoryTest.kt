@@ -24,12 +24,19 @@ class CharacterRepositoryTest : BaseUnitTest() {
     private val exception = RuntimeException("Something went wrong!")
 
     @Test
-    fun `emit character list from service`(): Unit = runBlocking {
+    fun `get character list success`(): Unit = runBlocking {
         val repository = mockCharacterListSuccessCase()
         val actual = repository.getCharacterList().first().getOrNull()
 
         assert(actual == characterList)
         verify(service, times(1)).getCharacterList()
+    }
+
+    @Test
+    fun `get character list failed`(): Unit = runBlockingTest {
+        val repository = mockCharacterListFailureCase()
+        val actual = repository.getCharacterList().first().exceptionOrNull()
+        assert(exception == actual)
     }
 
     @Test
@@ -41,13 +48,7 @@ class CharacterRepositoryTest : BaseUnitTest() {
     }
 
     @Test
-    fun `character list propagate error`(): Unit = runBlockingTest {
-        val repository = mockCharacterListFailureCase()
-        assert(exception == repository.getCharacterList().first().exceptionOrNull())
-    }
-
-    @Test
-    fun `emit character by id from service`(): Unit = runBlocking {
+    fun `get character detail success`(): Unit = runBlocking {
         val id = 5
         val repository = mockCharacterSuccessCase()
         val actual = repository.getCharacterById(id).first().getOrNull()
@@ -57,9 +58,10 @@ class CharacterRepositoryTest : BaseUnitTest() {
     }
 
     @Test
-    fun `character by id propagate error`(): Unit = runBlocking {
+    fun `get character detail failed`(): Unit = runBlocking {
         val repository = mockCharacterFailureCase()
-        assert(exception == repository.getCharacterById(5).first().exceptionOrNull())
+        val actual = repository.getCharacterById(5).first().exceptionOrNull()
+        assert(exception == actual)
     }
 
     private suspend fun mockCharacterListFailureCase(): CharacterRepository {

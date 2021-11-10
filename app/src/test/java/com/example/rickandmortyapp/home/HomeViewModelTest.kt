@@ -25,7 +25,7 @@ class HomeViewModelTest : BaseUnitTest() {
     private val exception = RuntimeException("Something went wrong!")
 
     @Test
-    fun `emits character list from repository`(): Unit = runBlockingTest {
+    fun `emits character list success`(): Unit = runBlockingTest {
         val viewModel = mockSuccessfulCase()
         val actual = viewModel.characterList.getValueForTest()
 
@@ -34,14 +34,14 @@ class HomeViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun `emits error when receive error`() {
+    fun `emits character list failed`() {
         val viewModel = mockFailureCase()
         val actual = viewModel.characterList.getValueForTest()!!.exceptionOrNull()
         assert(exception == actual)
     }
 
     @Test
-    fun showSpinnerWhileLoading(): Unit = runBlocking {
+    fun `show spinner while loading`(): Unit = runBlocking {
         val viewModel = mockSuccessfulCase()
         viewModel.loader.captureValues {
             viewModel.characterList.getValueForTest()
@@ -50,7 +50,7 @@ class HomeViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun closeLoaderAfterPlaylistLoad(): Unit = runBlockingTest {
+    fun `close loader after character list load`(): Unit = runBlockingTest {
         val viewModel = mockSuccessfulCase()
         viewModel.loader.captureValues {
             viewModel.characterList.getValueForTest()
@@ -59,7 +59,7 @@ class HomeViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun closeLoaderAfterError(): Unit = runBlockingTest {
+    fun `close loader after error`(): Unit = runBlockingTest {
         val viewModel = mockFailureCase()
         viewModel.loader.captureValues {
             viewModel.characterList.getValueForTest()

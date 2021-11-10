@@ -26,7 +26,7 @@ class DetailViewModelTest : BaseUnitTest() {
     private val exception = RuntimeException("Something went wrong!")
 
     @Test
-    fun `emits character from repository`(): Unit = runBlockingTest {
+    fun `emits character detail success`(): Unit = runBlockingTest {
         val viewModel = mockSuccessfulCase()
         val actual = viewModel.characterDetail.getValueForTest()
 
@@ -35,7 +35,14 @@ class DetailViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun showSpinnerWhileLoading(): Unit = runBlocking {
+    fun `emits character detail failed`() {
+        val viewModel = mockFailureCase()
+        val actual = viewModel.characterDetail.getValueForTest()!!.exceptionOrNull()
+        assert(exception == actual)
+    }
+
+    @Test
+    fun `show spinner while loading`(): Unit = runBlocking {
         val viewModel = mockSuccessfulCase()
         viewModel.loader.captureValues {
             viewModel.characterDetail.getValueForTest()
@@ -44,7 +51,7 @@ class DetailViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun closeLoaderAfterPlaylistLoad(): Unit = runBlockingTest {
+    fun `close loader after character load`(): Unit = runBlockingTest {
         val viewModel = mockSuccessfulCase()
         viewModel.loader.captureValues {
             viewModel.characterDetail.getValueForTest()
@@ -53,19 +60,12 @@ class DetailViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun closeLoaderAfterError(): Unit = runBlockingTest {
+    fun `close loader after error`(): Unit = runBlockingTest {
         val viewModel = mockFailureCase()
         viewModel.loader.captureValues {
             viewModel.characterDetail.getValueForTest()
             assert(false == values.last())
         }
-    }
-
-    @Test
-    fun `emits error when receive error`() {
-        val viewModel = mockFailureCase()
-        val actual = viewModel.characterDetail.getValueForTest()!!.exceptionOrNull()
-        assert(exception == actual)
     }
 
     private suspend fun mockSuccessfulCase(): CharacterDetailViewModel {

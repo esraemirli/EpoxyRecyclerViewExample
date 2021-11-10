@@ -24,7 +24,7 @@ class CharacterServiceTest : BaseUnitTest() {
     private val exception = RuntimeException("Something went wrong!")
 
     @Test
-    fun `emit character list from api`(): Unit = runBlockingTest {
+    fun `emits character list when network success`(): Unit = runBlockingTest {
         val service = mockCharacterListSuccessCase()
         val actual = service.getCharacterList().first()
         assert(actual == Result.success(characterResponse.characterList))
@@ -32,14 +32,14 @@ class CharacterServiceTest : BaseUnitTest() {
     }
 
     @Test
-    fun `emit error result when network fail`(): Unit = runBlockingTest {
+    fun `emits error result for character list when network fail`(): Unit = runBlockingTest {
         val service = mockCharacterListFailureCase()
         val actual = service.getCharacterList().first()
         assert(actual.exceptionOrNull()?.message == exception.message)
     }
 
     @Test
-    fun `emit character by id from api`(): Unit = runBlockingTest {
+    fun `emits character detail when network success`(): Unit = runBlockingTest {
         val id = 5
         val service = mockCharacterSuccessCase()
         val actual = service.getCharacterById(id).first()
@@ -49,7 +49,7 @@ class CharacterServiceTest : BaseUnitTest() {
     }
 
     @Test
-    fun `emit character by id error result when network fail`(): Unit = runBlockingTest {
+    fun `emits error result for character detail when network fail`(): Unit = runBlockingTest {
         val id = 5
         val service = mockCharacterFailureCase()
         val actual = service.getCharacterById(id).first()
