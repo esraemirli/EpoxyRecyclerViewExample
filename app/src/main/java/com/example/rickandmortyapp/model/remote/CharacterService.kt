@@ -15,7 +15,7 @@ class CharacterService @Inject constructor(
         return flow {
             emit(Result.success(api.getCharacterList().characterList))
         }.catch {
-            emit(Result.failure(RuntimeException("Something went wrong!${it.message}")))
+            emit(Result.failure(RuntimeException("Something went wrong!")))
         }
     }
 
@@ -23,7 +23,7 @@ class CharacterService @Inject constructor(
         return flow {
             emit(Result.success(api.getCharacterById(id)))
         }.catch {
-            emit(Result.failure(RuntimeException("Something went wrong!${it.message}")))
+            emit(Result.failure(RuntimeException("Something went wrong!")))
         }
     }
 

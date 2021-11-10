@@ -20,14 +20,18 @@ class CharacterRepository @Inject constructor(
             if (result.isSuccess)
                 Result.success(mapper(result.getOrNull()!!))
             else
-                Result.failure(result.exceptionOrNull() ?: RuntimeException("Fail"))
+                Result.failure(
+                    result.exceptionOrNull() ?: RuntimeException("Something went wrong!")
+                )
         }
 
-    suspend fun getCharacterById(id : Int): Flow<Result<Character>> =
+    suspend fun getCharacterById(id: Int): Flow<Result<Character>> =
         service.getCharacterById(id).map { result ->
             if (result.isSuccess)
                 Result.success(result.getOrNull()!!)
             else
-                Result.failure(result.exceptionOrNull() ?: RuntimeException("Fail"))
+                Result.failure(
+                    result.exceptionOrNull() ?: RuntimeException("Something went wrong!")
+                )
         }
 }
