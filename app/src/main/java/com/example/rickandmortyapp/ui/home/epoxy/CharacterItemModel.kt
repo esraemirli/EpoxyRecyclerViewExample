@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewParent
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.airbnb.epoxy.EpoxyAttribute
@@ -78,6 +77,5 @@ class CharacterItemModel(
     companion object {
         private const val ALIVE = "Alive"
         private const val DEAD = "Dead"
-        private const val UNKNOWN = "unknown"
     }
 }

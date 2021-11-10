@@ -47,7 +47,7 @@ class CharacterDetailModel(
         return R.layout.detail_character
     }
 
-    override fun createNewHolder(parent: ViewParent): CharacterDetailModel.Holder {
+    override fun createNewHolder(parent: ViewParent): Holder {
         return Holder()
     }
 }

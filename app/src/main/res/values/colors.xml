@@ -11,4 +11,5 @@
     <color name="alive_color">#8BC34A</color>
     <color name="dead_color">#E10E0E</color>
     <color name="unknown_color">#FFEB3B</color>
+    <color name="detail_card_color">#FFFFFFFF</color>
 </resources>
